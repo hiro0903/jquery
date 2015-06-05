@@ -1,14 +1,14 @@
 define([
-	"./var/arr",
-	"./var/document",
-	"./var/slice",
-	"./var/concat",
-	"./var/push",
-	"./var/indexOf",
-	"./var/class2type",
-	"./var/toString",
-	"./var/hasOwn",
-	"./var/support"
+	"./var/arr",        //[]
+	"./var/document",   //window.document
+	"./var/slice",      //[].slice
+	"./var/concat",     //[].concat
+	"./var/push",       //[].push
+	"./var/indexOf",    //[].indexOf
+	"./var/class2type", //{}          -- 把所有常用型別全部使用Object的toString(而不是各類型overwrite過的toString) 存成map, 例如{ [object Boolean] : "boolean" }
+	"./var/toString",   //{}.toString -- 主要用來搭配class2type用, 類似: ({}).toString.call( 要撿查的物件 )
+	"./var/hasOwn",     //{}.hasOwnProperty
+	"./var/support"     //{}          -- Core本身沒有support問題, 放著讓其他module附加用的
 ], function( arr, document, slice, concat, push, indexOf, class2type, toString, hasOwn, support ) {
 
 var
@@ -18,7 +18,7 @@ var
 	jQuery = function( selector, context ) {
 		// The jQuery object is actually just the init constructor 'enhanced'
 		// Need init if jQuery is called (just allow error to be thrown if not included)
-		return new jQuery.fn.init( selector, context );
+		return new jQuery.fn.init( selector, context );   //目前沒找到.init 從哪裡放上的
 	},
 
 	// Support: Android<4.1
@@ -425,7 +425,8 @@ jQuery.extend({
 	support: support
 });
 
-// Populate the class2type map
+// 把9個原生Class 使用Object.toString的結果存成 class2type map, 使用方式類似 $.type(class) => class2type[toStr.call(class)]
+// 可以利用 var i = new Error(); ({}).toString.call(i) 來驗證內容
 jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "),
 function(i, name) {
 	class2type[ "[object " + name + "]" ] = name.toLowerCase();
